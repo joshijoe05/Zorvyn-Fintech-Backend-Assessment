@@ -46,10 +46,7 @@ export const JWTUtil = {
 
     verifyAccessToken(token: string): AccessTokenPayload {
         try {
-            const payload = jwt.verify(token, env.JWT_ACCESS_SECRET, {
-                issuer:   'finance-backend',
-                audience: 'finance-client',
-            }) as AccessTokenPayload;
+            const payload = jwt.verify(token, env.JWT_ACCESS_SECRET) as AccessTokenPayload;
         
             if (payload.type !== 'access') throw Errors.tokenInvalid();
         
@@ -63,10 +60,7 @@ export const JWTUtil = {
 
     verifyRefreshToken(token: string): RefreshTokenPayload {
         try {
-            const payload = jwt.verify(token, env.JWT_REFRESH_SECRET, {
-                issuer:   'finance-backend',
-                audience: 'finance-client',
-            }) as RefreshTokenPayload;
+            const payload = jwt.verify(token, env.JWT_REFRESH_SECRET) as RefreshTokenPayload;
         
             if (payload.type !== 'refresh') throw Errors.tokenInvalid();
         
