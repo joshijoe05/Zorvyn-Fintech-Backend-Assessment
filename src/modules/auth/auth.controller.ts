@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { authService } from "./auth.service";
 import { ApiResponse, sendResponse } from "../../common/utils/apiResponse";   
-import { LoginInput, RegisterInput } from "./auth.schema";
+import { LoginInput, RefreshInput, RegisterInput } from "./auth.schema";
 import { Errors } from "../../common/utils/apiError";
 import { send } from "node:process";
+import { JWTUtil } from "../../common/utils/jwt";
 
 
 
@@ -50,6 +51,50 @@ export const authController = {
         
             const response = authService.buildAuthResponse(user, tokens);
             sendResponse(res, new ApiResponse(200, response, 'Login successful'));
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    async refresh(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const input: RefreshInput = req.body;
+        
+            const payload = JWTUtil.verifyRefreshToken(input.refreshToken);
+        
+            const user = await authService.findUserById(payload.sub);
+            if (!user) throw Errors.tokenInvalid();
+            authService.assertUserIsActive(user);
+        
+            const storedToken = await authService.validateRefreshToken(input.refreshToken, user.id);
+            if(!storedToken) throw Errors.tokenInvalid();
+        
+            await authService.revokeRefreshToken(storedToken.id);
+            const tokens = authService.generateTokenPair(user);
+        
+            await authService.storeRefreshToken(user.id, tokens.refreshToken, req);
+        
+            const response = authService.buildAuthResponse(user, tokens);
+            sendResponse(res, new ApiResponse(200, response, 'Tokens refreshed successfully'));
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const input: RefreshInput = req.body;
+        
+            const userId = req.user!.id;
+        
+            const payload = JWTUtil.verifyRefreshToken(input.refreshToken);
+            if (payload.sub !== userId) throw Errors.forbidden('Token does not belong to this user');
+        
+            const storedToken = await authService.validateRefreshToken(input.refreshToken, userId);
+            await authService.revokeRefreshToken(storedToken.id);
+        
+            await authService.logAuthEvent(userId, 'LOGOUT', req);
+            sendResponse(res, new ApiResponse(200, null, 'Logged out successfully'));
         } catch (err) {
             next(err);
         }
