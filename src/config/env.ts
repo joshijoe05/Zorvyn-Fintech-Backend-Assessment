@@ -9,7 +9,8 @@ const envSchema = z.object({
     JWT_ACCESS_SECRET: z.string(),
     JWT_REFRESH_SECRET: z.string(),
     NODE_ENV: z.enum(["development", "production"]).default("development"),
-    LOG_DIRECTORY: z.string()
+    LOG_DIRECTORY: z.string(),
+    BCRYPT_SALT_ROUNDS: z.string().default("12"),
 });
 
 export const env = envSchema.parse(process.env);
