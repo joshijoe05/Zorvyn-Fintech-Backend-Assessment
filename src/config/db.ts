@@ -1,7 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/utils/logger";
 
-const prisma = new PrismaClient();
+declare global {
+  var __prisma: PrismaClient | undefined;
+}
+ 
+const prisma: PrismaClient =
+  global.__prisma ??
+  new PrismaClient();
+
 
 export const connectDB = async () => {
     try {
