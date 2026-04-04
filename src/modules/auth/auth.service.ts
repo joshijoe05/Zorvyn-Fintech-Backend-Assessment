@@ -59,7 +59,11 @@ export const authService = {
         });
     },
 
-
+    assertUserIsActive(user: User): void {
+        if (user.status === 'INACTIVE') {
+            throw Errors.forbidden('Your account has been deactivated. Please contact an administrator.');
+        }
+    },
     
 
     async storeRefreshToken(
