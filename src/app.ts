@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import errorMiddleware from "./common/middleware/error.middleware";
+import { notFoundHandler, errorHandler } from "./common/middleware/error.middleware";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 
@@ -31,6 +31,8 @@ app.get("/", (req, res) => {
     res.send("API is running...");
 });
 
-app.use(errorMiddleware);
+app.use(notFoundHandler);
+
+app.use(errorHandler);
 
 export default app;
