@@ -11,6 +11,8 @@ const envSchema = z.object({
     NODE_ENV: z.enum(["development", "production"]).default("development"),
     LOG_DIRECTORY: z.string(),
     BCRYPT_SALT_ROUNDS: z.string().default("12"),
+    ACCESS_TOKEN_EXPIRY: z.string().default("15m"),
+    REFRESH_TOKEN_EXPIRY: z.string().default("7d"),
 });
 
 export const env = envSchema.parse(process.env);
