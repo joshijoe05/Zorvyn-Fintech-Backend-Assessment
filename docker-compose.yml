@@ -13,7 +13,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.local
     container_name: zorvyn-finance-backend
     depends_on:
       - db
