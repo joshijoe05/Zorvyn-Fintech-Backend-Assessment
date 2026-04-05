@@ -2,6 +2,10 @@ import swaggerJsdoc from "swagger-jsdoc";
 import { env } from "../config/env";
 import { authDocs } from "../docs/auth.docs";
 import { authSchemas } from "../docs/schemas/auth.schemas";
+import { categoriesSchemas } from "../docs/schemas/categories.schemas";
+import { recordsSchema } from "../docs/schemas/records.schemas";
+import { categoriesDocs } from "../docs/categories.docs";
+import { recordsDocs } from "../docs/records.docs";
 
 const options = {
     definition: {
@@ -16,6 +20,8 @@ const options = {
         components: {
             schemas: {
                 ...authSchemas,
+                ...categoriesSchemas,
+                ...recordsSchema,
             },
             securitySchemes: {
                 bearerAuth: {
@@ -34,6 +40,8 @@ const options = {
         ],
         paths: {
             ...authDocs,
+            ...categoriesDocs,
+            ...recordsDocs,
         },
     },
     apis: [],

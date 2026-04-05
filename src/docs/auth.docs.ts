@@ -1,17 +1,6 @@
-
-const body = (ref: string) => ({
-  required: true,
-  content: { 'application/json': { schema: { $ref: `#/components/schemas/${ref}` } } },
-});
+import { body, errorResponses, secured } from "./docUtils";
 
 
-const errorResponses = {
-  400: { description: 'Validation failed' },
-  401: { description: 'Unauthenticated' },
-  403: { description: 'Forbidden' },
-  409: { description: 'Conflict' },
-  500: { description: 'Internal server error' },
-};
 
 export const authDocs = {
 
@@ -59,7 +48,7 @@ export const authDocs = {
       tags:        ['Auth'],
       summary:     'Logout',
       description: 'Revokes the refresh token. Access token expires naturally.',
-      security:    [{ Bearer: [] }],
+      security:    secured,
       requestBody: body('RefreshRequest'),
       responses: {
         200: {description : 'Logged out successfully'},
