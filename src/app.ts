@@ -7,6 +7,7 @@ import { swaggerSpec } from "./config/swagger";
 
 // Route imports
 import authRoutes from './modules/auth/auth.routes';
+import categoriesRoutes from './modules/categories/categories.routes';
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/categories", categoriesRoutes);
 
 app.use(notFoundHandler);
 
