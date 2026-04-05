@@ -20,6 +20,21 @@ export const validate =
     next();
   };
 
+export const validateQuery =
+  (schema: ZodSchema) =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    const result = schema.safeParse(req.query);
+ 
+    if (!result.success) {
+      const errors = groupZodErrors(result.error);
+      sendResponse(res, new ApiResponse(400, null, 'Invalid query parameters', errors));
+      return;
+    }
+ 
+    req.query = result.data as any;
+    next();
+  };
+
 function groupZodErrors(error: ZodError): Record<string, string[]> {
   return error.issues.reduce<Record<string, string[]>>((acc, issue) => {
     const field = issue.path.join('.') || 'root';
