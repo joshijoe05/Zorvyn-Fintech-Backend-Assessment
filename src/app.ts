@@ -5,6 +5,9 @@ import { notFoundHandler, errorHandler } from "./common/middleware/error.middlew
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 
+// Route imports
+import authRoutes from './modules/auth/auth.routes';
+
 const app = express();
 
 app.use(express.json({
@@ -25,11 +28,13 @@ app.use(helmet());
 
 app.use(express.static("public"));
 
-app.use("/v1/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", (req, res) => {
     res.send("API is running...");
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 app.use(notFoundHandler);
 

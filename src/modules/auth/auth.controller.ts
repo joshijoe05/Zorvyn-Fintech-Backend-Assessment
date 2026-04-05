@@ -3,7 +3,6 @@ import { authService } from "./auth.service";
 import { ApiResponse, sendResponse } from "../../common/utils/apiResponse";   
 import { LoginInput, RefreshInput, RegisterInput } from "./auth.schema";
 import { Errors } from "../../common/utils/apiError";
-import { send } from "node:process";
 import { JWTUtil } from "../../common/utils/jwt";
 
 
