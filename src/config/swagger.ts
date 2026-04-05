@@ -6,6 +6,7 @@ import { categoriesSchemas } from "../docs/schemas/categories.schemas";
 import { recordsSchema } from "../docs/schemas/records.schemas";
 import { categoriesDocs } from "../docs/categories.docs";
 import { recordsDocs } from "../docs/records.docs";
+import { dashboardDocs } from "../docs/dashboard.docs";
 
 const options = {
     definition: {
@@ -33,7 +34,6 @@ const options = {
         },
         tags: [
             { name: 'Auth',       description: 'Authentication — login, logout, token refresh' },
-            { name: 'Users',      description: 'User management (Admin only)' },
             { name: 'Records',    description: 'Financial records — CRUD and filtering' },
             { name: 'Categories', description: 'Record categories management' },
             { name: 'Dashboard',  description: 'Aggregated analytics and insights' },
@@ -42,6 +42,7 @@ const options = {
             ...authDocs,
             ...categoriesDocs,
             ...recordsDocs,
+            ...dashboardDocs
         },
     },
     apis: [],

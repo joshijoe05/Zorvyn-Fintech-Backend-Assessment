@@ -9,6 +9,7 @@ import { swaggerSpec } from "./config/swagger";
 import authRoutes from './modules/auth/auth.routes';
 import categoriesRoutes from './modules/categories/categories.routes';
 import recordRoutes from './modules/records/records.routes';
+import dashboardRoutes from "./modules/dashboard/dashboard.routes";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/records", recordRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 app.use(notFoundHandler);
 
