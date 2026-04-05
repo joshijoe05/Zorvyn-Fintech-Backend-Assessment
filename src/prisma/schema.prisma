@@ -54,9 +54,6 @@ model User {
   auditLogs        AuditLog[]        @relation("PerformedBy")
   categories       Category[]        @relation("CategoryCreator")
 
-  @@index([email], map: "idx_users_email")
-  @@index([role, status], map: "idx_users_role_status")
-  @@index([deletedAt], map: "idx_users_deleted_at")
   @@map("users")
 }
 
@@ -75,9 +72,6 @@ model Category {
   creator          User?             @relation("CategoryCreator", fields: [createdBy], references: [id])
   financialRecords FinancialRecord[]
 
-  @@index([name], map: "idx_categories_name")
-  @@index([isSystem], map: "idx_categories_is_system")
-  @@index([deletedAt], map: "idx_categories_deleted_at")
   @@map("categories")
 }
 
@@ -96,13 +90,6 @@ model FinancialRecord {
   user     User     @relation(fields: [userId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
 
-  @@index([userId], map: "idx_fr_user_id")
-  @@index([categoryId], map: "idx_fr_category_id")
-  @@index([date], map: "idx_fr_date")
-  @@index([type], map: "idx_fr_type")
-  @@index([userId, type, date], map: "idx_fr_composite")
-  @@index([deletedAt], map: "idx_fr_deleted_at")
-  @@index([createdAt], map: "idx_fr_created_at")
   @@map("financial_records")
 }
 
@@ -118,9 +105,6 @@ model RefreshToken {
 
   user User @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "idx_rt_user_id")
-  @@index([expiresAt], map: "idx_rt_expires_at")
-  @@index([isRevoked], map: "idx_rt_is_revoked")
   @@map("refresh_tokens")
 }
 
@@ -138,9 +122,5 @@ model AuditLog {
 
   performer User? @relation("PerformedBy", fields: [performedBy], references: [id])
 
-  @@index([entityType, entityId], map: "idx_al_entity")
-  @@index([performedBy], map: "idx_al_performed_by")
-  @@index([createdAt], map: "idx_al_created_at")
-  @@index([action], map: "idx_al_action")
   @@map("audit_logs")
 }
