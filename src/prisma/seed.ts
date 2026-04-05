@@ -1,11 +1,12 @@
 import { PrismaClient, UserRole, RecordType } from "@prisma/client";
 import bcrypt from "bcrypt";
 import logger from "../common/utils/logger";
+import { env } from "../config/env";
 
 const prisma = new PrismaClient();
 
 async function main() {
-    const passwordHash = await bcrypt.hash("Password@123", 10);
+    const passwordHash = await bcrypt.hash("Password@123", parseInt(env.BCRYPT_SALT_ROUNDS));
 
     const admin = await prisma.user.upsert({
         where: { email: "admin@test.com" },

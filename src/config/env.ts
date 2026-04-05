@@ -5,6 +5,10 @@ dotenv.config();
 
 const envSchema = z.object({
     PORT: z.string().default("3000"),
+    POSTGRES_USER: z.string().default("postgres"),
+    POSTGRES_PASSWORD: z.string().default("password"),
+    POSTGRES_DB: z.string().default("finance_db"),
+    DB_HOST: z.string().default("localhost"),
     DATABASE_URL: z.string(),
     JWT_ACCESS_SECRET: z.string(),
     JWT_REFRESH_SECRET: z.string(),
