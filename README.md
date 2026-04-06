@@ -99,7 +99,6 @@ docker-compose down -v
 
 ```bash
 git clone https://github.com/yourusername/finance-backend.git
-cd finance-backend
 npm install
 ```
 
