@@ -11,8 +11,7 @@ export const createRecordSchema = z.object({
     }),
 
   categoryId: z
-    .string({ error: 'Category is required' })
-    .uuid('Category ID must be a valid UUID'),
+    .string({ error: 'Category is required' }),
 
   date: z
     .string({ error: 'Date is required' })
@@ -33,7 +32,7 @@ export const recordsQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(20),
 
   type:       z.enum(['INCOME', 'EXPENSE']).optional(),
-  categoryId: z.string().uuid().optional(),
+  categoryId: z.string().optional(),
   from:       z.string().date('from must be YYYY-MM-DD').optional(),
   to:         z.string().date('to must be YYYY-MM-DD').optional(),
 

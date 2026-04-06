@@ -27,7 +27,7 @@ export const dashboardService = {
   ): Promise<FinancialSummary> {
     const userFilter = buildUserFilter(role, requestingUserId, filterUserId);
  
-    const row = await prisma.$queryRaw<FinancialSummary>`
+    const rows = await prisma.$queryRaw<FinancialSummary[]>`
       SELECT
         user_id        AS "userId",
         user_name      AS "userName",
@@ -39,7 +39,7 @@ export const dashboardService = {
       FROM v_financial_summary
       WHERE 1=1 ${userFilter}
     `;
-
+    const row = rows[0];
     return {
       ...row,
       totalIncome:   Number(row.totalIncome),
@@ -54,10 +54,10 @@ export const dashboardService = {
     role:             string,
     requestingUserId: string,
     filterUserId?:    string,
-  ): Promise<CategoryTotal> {
+  ): Promise<CategoryTotal[]> {
     const userFilter = buildUserFilter(role, requestingUserId, filterUserId);
  
-    const row = await prisma.$queryRaw<CategoryTotal>`
+    const rows = await prisma.$queryRaw<CategoryTotal[]>`
       SELECT
         user_id        AS "userId",
         category_id    AS "categoryId",
@@ -72,11 +72,11 @@ export const dashboardService = {
       ORDER BY total DESC
     `;
  
-    return {
-      ...row,
-      total:       Number(row.total),
-      recordCount: Number(row.recordCount),
-    };
+    return rows.map((r) => ({
+      ...r,
+      total:       Number(r.total),
+      recordCount: Number(r.recordCount),
+    }));
   },
 
  

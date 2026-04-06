@@ -31,7 +31,7 @@ export const validateQuery =
       return;
     }
  
-    req.query = result.data as any;
+    req.validatedQuery = result.data;
     next();
   };
 

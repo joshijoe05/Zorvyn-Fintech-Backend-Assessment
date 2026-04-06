@@ -9,7 +9,7 @@ export const recordsController = {
 
   async list(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const query  = req.query as unknown as RecordsQuery;
+      const query  = req.validatedQuery as unknown as RecordsQuery;
       const result = await recordsService.findAll(query, req.user!.id, isAdmin(req));
 
       sendResponse(res, new ApiResponse(200, result, 'Records retrieved successfully'));
