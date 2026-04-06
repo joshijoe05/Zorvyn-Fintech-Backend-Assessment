@@ -17,6 +17,7 @@ const options = {
         },
         servers: [
             { url: `http://localhost:${env.PORT}/api/v1`, description: "Local development server" },
+            { url: `https://zorvyn-fintech-backend-assessment-production.up.railway.app/api/v1`, description: "Production server" },
         ],
         components: {
             schemas: {
